@@ -20,23 +20,24 @@
 #   - エラー発生時も処理を継続し、最後に結果をまとめて報告
 # ===================================
 
+
 name: Node.js CI                       # ワークフローの名前を定義
 
 on:                                    # ワークフローのトリガーを定義
   push:                                # mainブランチへのプッシュ時に実行
-    branches: [ "main" ]                 
+    branches: [ "sub" ]                # 必要に応じて「ブランチ名」を変更してください （一旦動かないように）
   pull_request:                        # mainブランチへのプルリクエスト時に実行
-    branches: [ "main" ]
+    branches: [ "sub" ]                # 必要に応じて「ブランチ名」を変更してください（一旦動かないように）
 
 jobs:                                  # 実行するジョブを定義
   build:                               # buildという名前のジョブを定義
-    runs-on: ${{ matrix.os }}    # マトリックスビルドのOSを使用
+    runs-on: ${{ matrix.os }}          # マトリックスビルドのOSを使用
     
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]  # Ubuntu と Windows でテスト
         node-version: [16.x, 18.x, 20.x]     # LTSバージョンを含む
-      fail-fast: false    # 1つの組み合わせが失敗しても他を継続
+      fail-fast: false                       # 1つの組み合わせが失敗しても他を継続
 
     steps:                             # リポジトリのコードをチェックアウト
       - uses: actions/checkout@v4      # コードを取得
@@ -44,7 +45,7 @@ jobs:                                  # 実行するジョブを定義
         uses: actions/setup-node@v4    # v4の最新版を使用
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'    # npm キャッシュを有効化
+          cache: 'npm'                 # npm キャッシュを有効化
       - name: Cache dependencies       # 依存関係のキャッシュを設定
         uses: actions/cache@v3
         with:
@@ -96,4 +97,3 @@ jobs:                                  # 実行するジョブを定義
             echo "::error::Previous steps contained errors"
             exit 1
           fi
-
