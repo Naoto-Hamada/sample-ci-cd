@@ -11,8 +11,8 @@ jobs:                                    # 実行するジョブを定義
     runs-on: ubuntu-latest               # Ubuntu最新版で実行
     steps:                               # リポジトリのコードをチェックアウト
       - uses: actions/checkout@v4        # コードを取得
-      - name: Use Node.js
-        uses: actions/setup-node@v2      # Node.jsのセットアップ
+      - name: Use Node.js                # Node.jsのセットアップ
+        uses: actions/setup-node@v2
         with:                            # Node.jsのバージョン16を使用
           node-version: 16
       - name: Install dependencies       # 依存関係のインストール
