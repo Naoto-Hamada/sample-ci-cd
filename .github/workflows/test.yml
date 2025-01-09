@@ -18,6 +18,7 @@ jobs:                                  # 実行するジョブを定義
       - name: Install dependencies     # 依存関係のインストール
         run: npm install
       - name: Run tests                # テストの実行 
-        run: npm test
+        run: |
+          set -x                        # bashのトレーシングオプションを有効にする
+          npm test
 
-        
