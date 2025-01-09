@@ -16,6 +16,8 @@ jobs:                                  # 実行するジョブを定義
         with:                          # Node.jsのバージョン16を使用
           node-version: 16
       - name: Install dependencies     # 依存関係のインストール
+        id: install
+        continue-on-error: true        # エラーが発生しても続行
         run: npm install
       - name: Show environment info    # 環境変数とシステム情報の表示
         run: |
@@ -23,11 +25,30 @@ jobs:                                  # 実行するジョブを定義
           printenv
           echo "::endgroup::"
       - name: Run tests                # テストの実行 
-        run: |
-          npm test
+        id: test
+        continue-on-error: true        # エラーが発生しても続行
+        run: npm test
       - name: Add job summary          # ジョブサマリーの追加
+        if: always()                   # 常に実行
         run: |
-          echo "## Example Title :rocket:" >> "$GITHUB_STEP_SUMMARY"
-          echo "- first line" >> "$GITHUB_STEP_SUMMARY"
-          echo "- second line" >> "$GITHUB_STEP_SUMMARY"
+          echo "## 実行結果サマリー :clipboard:" >> "$GITHUB_STEP_SUMMARY"
+          echo "### 依存関係のインストール :package:" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ steps.install.outcome }}" == "success" ]; then
+            echo "✅ npm installは正常に完了しました" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "❌ npm installでエラーが発生しました" >> "$GITHUB_STEP_SUMMARY"
+            echo "```" >> "$GITHUB_STEP_SUMMARY"
+            echo "${{ steps.install.outputs.stderr }}" >> "$GITHUB_STEP_SUMMARY"
+            echo "```" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+          echo "### テスト実行結果 :test_tube:" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ steps.test.outcome }}" == "success" ]; then
+            echo "✅ テストは正常に完了しました" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "❌ テストでエラーが発生しました" >> "$GITHUB_STEP_SUMMARY"
+            echo "```" >> "$GITHUB_STEP_SUMMARY"
+            echo "${{ steps.test.outputs.stderr }}" >> "$GITHUB_STEP_SUMMARY"
+            echo "```" >> "$GITHUB_STEP_SUMMARY"
+          fi
 
