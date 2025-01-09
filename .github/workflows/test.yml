@@ -37,6 +37,13 @@ jobs:                                  # 実行するジョブを定義
         uses: actions/setup-node@v2
         with:                          # Node.jsのバージョン16を使用
           node-version: 16
+      - name: Cache dependencies       # 依存関係のキャッシュを設定
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - name: Install dependencies     # 依存関係のインストール
         id: install
         continue-on-error: true        # エラーが発生しても続行
