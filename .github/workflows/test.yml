@@ -17,8 +17,12 @@ jobs:                                  # 実行するジョブを定義
           node-version: 16
       - name: Install dependencies     # 依存関係のインストール
         run: npm install
+      - name: Show environment info    # 環境変数とシステム情報の表示
+        run: |
+          echo "::group::Show environment variables"
+          printenv
+          echo "::endgroup::"
       - name: Run tests                # テストの実行 
         run: |
-          set -x                        # bashのトレーシングオプションを有効にする
           npm test
 
