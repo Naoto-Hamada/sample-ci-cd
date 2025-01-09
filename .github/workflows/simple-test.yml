@@ -1,4 +1,4 @@
-name: Node.js CI                         # ワークフローの名前を定義
+name: Node.js CI simple                        # ワークフローの名前を定義
 
 on:                                      # ワークフローのトリガーを定義
   push:                                  # mainブランチへのプッシュ時に実行
