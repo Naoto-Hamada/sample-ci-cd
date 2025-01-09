@@ -19,3 +19,5 @@ jobs:                                  # 実行するジョブを定義
         run: npm install
       - name: Run tests                # テストの実行 
         run: npm test
+
+        
