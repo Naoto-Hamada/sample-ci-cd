@@ -52,3 +52,11 @@ jobs:                                  # 実行するジョブを定義
             echo "```" >> "$GITHUB_STEP_SUMMARY"
           fi
 
+      - name: Check for errors
+        if: always()
+        run: |
+          if [ "${{ steps.install.outcome }}" != "success" ] || [ "${{ steps.test.outcome }}" != "success" ]; then
+            echo "::error::Previous steps contained errors"
+            exit 1
+          fi
+
