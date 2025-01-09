@@ -1,20 +1,21 @@
-name: Node.js CI
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
+name: Node.js CI                         # ワークフローの名前を定義
+
+on:                                      # ワークフローのトリガーを定義
+  push:                                  # mainブランチへのプッシュ時に実行
+    branches: [ "main" ]                 
+  pull_request:                          # mainブランチへのプルリクエスト時に実行
     branches: [ "main" ]
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+jobs:                                    # 実行するジョブを定義
+  build:                                 # buildという名前のジョブを定義
+    runs-on: ubuntu-latest               # Ubuntu最新版で実行
+    steps:                               # リポジトリのコードをチェックアウト
+      - uses: actions/checkout@v4        # コードを取得
       - name: Use Node.js
-        uses: actions/setup-node@v2
-        with:
+        uses: actions/setup-node@v2      # Node.jsのセットアップ
+        with:                            # Node.jsのバージョン16を使用
           node-version: 16
-      - name: Install dependencies
+      - name: Install dependencies       # 依存関係のインストール
         run: npm install
-      - name: Run tests
+      - name: Run tests                  # テストの実行
         run: npm test
