@@ -22,7 +22,19 @@ jobs:                                  # 実行するジョブを定義
           echo "::group::Show environment variables"
           printenv
           echo "::endgroup::"
-      - name: Run tests                # テストの実行 
+      - name: Run tests                # テストの実行
         run: |
+          echo "::group::Errors"       # エラーメッセージのグループ開始
+          echo "::error::エラーが発生しました"
+          echo "::endgroup::"
+
+          echo "::group::Warnings"     # 警告メッセージのグループ開始
+          echo "::warning::警告があります"
+          echo "::endgroup::"
+
+          echo "::group::Notices"      # 通知メッセージのグループ開始
+          echo "::notice::通知メッセージです"
+          echo "::endgroup::"
+
           npm test
 
