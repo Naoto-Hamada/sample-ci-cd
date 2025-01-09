@@ -44,7 +44,7 @@ jobs:                                  # 実行するジョブを定義
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - name: Install dependencies     # 依存関係のインストール
+      - name: Install dependencies     # 依存関係のインストール 
         id: install
         continue-on-error: true        # エラーが発生しても続行
         run: npm install
