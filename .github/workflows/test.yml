@@ -30,13 +30,21 @@ on:                                    # ワークフローのトリガーを定
 
 jobs:                                  # 実行するジョブを定義
   build:                               # buildという名前のジョブを定義
-    runs-on: ubuntu-latest             # Ubuntu最新版で実行
+    runs-on: ${{ matrix.os }}    # マトリックスビルドのOSを使用
+    
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]  # Ubuntu と Windows でテスト
+        node-version: [16.x, 18.x, 20.x]     # LTSバージョンを含む
+      fail-fast: false    # 1つの組み合わせが失敗しても他を継続
+
     steps:                             # リポジトリのコードをチェックアウト
       - uses: actions/checkout@v4      # コードを取得
-      - name: Use Node.js              # Node.jsのセットアップ
-        uses: actions/setup-node@v2
-        with:                          # Node.jsのバージョン16を使用
-          node-version: 16
+      - name: Node.js ${{ matrix.node-version }}のセットアップ
+        uses: actions/setup-node@v4    # v4の最新版を使用
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'    # npm キャッシュを有効化
       - name: Cache dependencies       # 依存関係のキャッシュを設定
         uses: actions/cache@v3
         with:
