@@ -17,5 +17,5 @@ jobs:                                    # 実行するジョブを定義
           node-version: 16
       - name: Install dependencies       # 依存関係のインストール
         run: npm install
-      - name: Run tests                  # テストの実行
+      - name: Run tests                  # テストの実行 
         run: npm test
